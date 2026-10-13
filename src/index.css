@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --color-paper: #e9eef7;
+  --color-ink: #1e2347;
+  --color-stamp: #e4266f;
+  --color-hit: #ffd23f;
+  --color-line: #c9d2e6;
+}
+
+html,
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.stamp-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: stamp-draw 0.25s ease-out;
+}
+
+@keyframes stamp-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-draw {
+    animation: none;
+  }
+}
