@@ -8,27 +8,26 @@ type Props = {
   large?: boolean;
 };
 
-function Stamp({ animate }: { animate: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className="pointer-events-none absolute inset-0 h-full w-full text-stamp"
-      aria-hidden="true"
-    >
-      <path
-        d="M20 20 L80 80 M80 20 L20 80"
-        pathLength={1}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="9"
-        strokeLinecap="round"
-        className={animate ? 'stamp-draw' : undefined}
-        opacity="0.85"
-      />
-    </svg>
-  );
+function Stamp({ animate, index }: { animate: boolean; index: number }) {
+    // jede Pfote leicht anders gedreht, wie von Hand gestempelt
+    const tilt = ((index * 37) % 31) - 15;
+    return (
+        <svg
+            viewBox="0 0 100 100"
+            className="pointer-events-none absolute inset-0 h-full w-full p-[12%] text-stamp"
+            style={{ transform: `rotate(${tilt}deg)` }}
+            aria-hidden="true"
+        >
+            <g fill="currentColor" opacity="0.85" className={animate ? 'paw-pop' : undefined}>
+                <ellipse cx="50" cy="68" rx="24" ry="19" />
+                <ellipse cx="20" cy="46" rx="9" ry="13" transform="rotate(-22 20 46)" />
+                <ellipse cx="38" cy="25" rx="9" ry="13" transform="rotate(-8 38 25)" />
+                <ellipse cx="62" cy="25" rx="9" ry="13" transform="rotate(8 62 25)" />
+                <ellipse cx="80" cy="46" rx="9" ry="13" transform="rotate(22 80 46)" />
+            </g>
+        </svg>
+    );
 }
-
 export default function BingoCard({ card, size, onToggle, large = false }: Props) {
   const winSet = new Set(card.win_line ?? []);
 
@@ -49,7 +48,7 @@ export default function BingoCard({ card, size, onToggle, large = false }: Props
         const label = (
           <>
             <span className={cell.checked ? 'opacity-50' : undefined}>{cell.text}</span>
-            {cell.checked && <Stamp animate={Boolean(onToggle)} />}
+            {cell.checked && <Stamp animate={Boolean(onToggle)} index={i} />}
           </>
         );
 
@@ -61,7 +60,7 @@ export default function BingoCard({ card, size, onToggle, large = false }: Props
               onClick={() => onToggle(i)}
               aria-pressed={cell.checked}
               title={cell.text}
-              className={`${cellClass(win)} cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-stamp`}
+              className={`${cellClass(win)} cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-stamp active:scale-95 transition-transform motion-reduce:transition-none`}
             >
               {label}
             </button>

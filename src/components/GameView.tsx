@@ -7,6 +7,7 @@ import BingoCard from './BingoCard';
 import CardEditor from './CardEditor';
 import WinnerModal from './WinnerModal';
 import { btnGhost } from '../lib/ui';
+import CatLogo from "./CatLogo";
 
 type Props = { code: string; userId: string; name: string; onLeave: () => void };
 
@@ -137,12 +138,15 @@ function Table({ game, userId, name, onLeave }: { game: Game; userId: string; na
   return (
     <main className="mx-auto max-w-6xl px-4 py-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">{game.title}</h1>
-          <p className="text-ink/70">
-            Code {game.code} · {cards.length} {cards.length === 1 ? 'Karte' : 'Karten'} · du bist {name}
-          </p>
-        </div>
+          <div className="flex items-center gap-3">
+              <CatLogo className="h-10 w-10 shrink-0 text-ink" />
+              <div>
+                  <h1 className="text-3xl font-extrabold tracking-tight">{game.title}</h1>
+                  <p className="text-ink/70">
+                      Code {game.code} · {cards.length} {cards.length === 1 ? 'Karte' : 'Karten'} · du bist {name}
+                  </p>
+              </div>
+          </div>
         <div className="flex flex-wrap gap-2">
           <button type="button" onClick={copyLink} className={btnGhost}>
             {copied ? 'Link kopiert' : 'Einladungslink kopieren'}
